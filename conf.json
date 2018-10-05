@@ -1,11 +1,13 @@
 {
     "weights"         : "imagenet",
   
-    "train_path"      : "train_data",
+    "train_path"      : "test_data",
     "test_path"       : "test_data",
     "augmented_data"  : "augmented_data",
     "model_path"      : "model_data",
   
-    "validation_split": 0.10,
-    "batch_size"      : 64 
+    "validation_split": 0.15,
+    "batch_size"      : 64, 
+    "epochs"          : 1,
+    "epochs_after_unfreeze" : 1
   }

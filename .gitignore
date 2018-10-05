@@ -108,3 +108,4 @@ train_data/
 test_data/
 model_data/
 augmented_data/
+logs/
