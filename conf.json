@@ -8,6 +8,7 @@
   
     "validation_split": 0.15,
     "batch_size"      : 64, 
-    "epochs"          : 1,
-    "epochs_after_unfreeze" : 1
+    "epochs"          : 40,
+    "epochs_after_unfreeze" : 10,
+    "data_augmentation" : false
   }
