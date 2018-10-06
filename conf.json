@@ -1,14 +1,14 @@
 {
-    "weights"         : "imagenet",
+    "weights"         : "model_data/trained_1.h5",
   
-    "train_path"      : "test_data",
+    "train_path"      : "train_data",
     "test_path"       : "test_data",
     "augmented_data"  : "augmented_data",
     "model_path"      : "model_data",
   
     "validation_split": 0.15,
     "batch_size"      : 64, 
-    "epochs"          : 40,
-    "epochs_after_unfreeze" : 10,
+    "epochs"          : 50,
+    "epochs_after_unfreeze" : 5,
     "data_augmentation" : false
   }

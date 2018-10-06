@@ -4,8 +4,10 @@ import cv2
 import numpy as np
 from keras.utils import to_categorical
 from keras.preprocessing.image import ImageDataGenerator
+import os
 
 def generate_batches(path, batchSize):
+    while True:
         files = glob.glob(path + '/*/*jpg')
         for f in range(0, len(files), batchSize):
             x = []
@@ -29,3 +31,12 @@ def generate_batches_with_augmentation(train_path, batch_size, validation_split,
             batch_size=batch_size, 
             save_to_dir=augmented_data)
         return train_generator
+
+def create_folders(model_path, augmented_data):
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
+    if not os.path.exists(augmented_data):
+        os.mkdir(augmented_data)
+    if not os.path.exists("logs"):
+        os.mkdir("logs")
+        

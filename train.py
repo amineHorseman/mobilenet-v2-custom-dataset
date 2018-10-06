@@ -8,7 +8,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 # keras imports
 from keras.applications.mobilenetv2 import MobileNetV2
-from keras.models import Model
+from keras.models import Model, load_model
 from keras.layers import Dense, GlobalAveragePooling2D, Input
 from keras.utils import to_categorical
 from keras.optimizers import SGD
@@ -19,7 +19,7 @@ import json
 import datetime
 import time
 
-from utils import generate_batches, generate_batches_with_augmentation
+from utils import generate_batches, generate_batches_with_augmentation, create_folders
 
 # load the user configs
 with open('conf.json') as f:    
@@ -36,15 +36,19 @@ augmented_data     = config["augmented_data"]
 validation_split   = config["validation_split"]
 data_augmentation  = config["data_augmentation"]
 epochs_after_unfreeze = config["epochs_after_unfreeze"]
+create_folders(model_path, augmented_data)
 
 # create model
-base_model = MobileNetV2(include_top=False, weights=weights, 
-                          input_tensor=Input(shape=(224,224,3)), input_shape=(224,224,3))
-top_layers = base_model.output
-top_layers = GlobalAveragePooling2D()(top_layers)
-top_layers = Dense(1024, activation='relu')(top_layers)
-predictions = Dense(10, activation='softmax')(top_layers)
-model = Model(inputs=base_model.input, outputs=predictions)
+if weights=="imagenet":
+  base_model = MobileNetV2(include_top=False, weights=weights, 
+                            input_tensor=Input(shape=(224,224,3)), input_shape=(224,224,3))
+  top_layers = base_model.output
+  top_layers = GlobalAveragePooling2D()(top_layers)
+  top_layers = Dense(1024, activation='relu')(top_layers)
+  predictions = Dense(10, activation='softmax')(top_layers)
+  model = Model(inputs=base_model.input, outputs=predictions)
+else:
+  model = load_model(weights)
 print ("[INFO] successfully loaded base model and model...")
 
 # create callbacks
@@ -54,7 +58,7 @@ checkpoint = ModelCheckpoint("logs/weights.h5", monitor='loss', save_best_only=T
 start = time.time()
 
 print ("Freezing the base layers. Unfreeze the top 2 layers...")
-for layer in base_model.layers:
+for layer in model.layers[:-3]:
     layer.trainable = False
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 
