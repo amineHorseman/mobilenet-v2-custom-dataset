@@ -1,11 +1,12 @@
 {
-    "weights"         : "model_data/trained_1.h5",
+    "weights"         : "imagenet",
   
     "train_path"      : "train_data",
     "test_path"       : "test_data",
     "augmented_data"  : "augmented_data",
     "model_path"      : "model_data",
-  
+
+    "classes"         : 10,
     "validation_split": 0.15,
     "batch_size"      : 64, 
     "epochs"          : 50,

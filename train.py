@@ -32,6 +32,7 @@ test_path     = config["test_path"]
 model_path    = config["model_path"]
 batch_size    = config["batch_size"]
 epochs        = config["epochs"]
+classes       = config["classes"]
 augmented_data     = config["augmented_data"]
 validation_split   = config["validation_split"]
 data_augmentation  = config["data_augmentation"]
@@ -45,7 +46,15 @@ if weights=="imagenet":
   top_layers = base_model.output
   top_layers = GlobalAveragePooling2D()(top_layers)
   top_layers = Dense(1024, activation='relu')(top_layers)
-  predictions = Dense(10, activation='softmax')(top_layers)
+  predictions = Dense(classes, activation='softmax')(top_layers)
+  model = Model(inputs=base_model.input, outputs=predictions)
+elif weights=="":
+  base_model = MobileNetV2(include_top=False,
+                            input_tensor=Input(shape=(224,224,3)), input_shape=(224,224,3))
+  top_layers = base_model.output
+  top_layers = GlobalAveragePooling2D()(top_layers)
+  top_layers = Dense(1024, activation='relu')(top_layers)
+  predictions = Dense(classes, activation='softmax')(top_layers)
   model = Model(inputs=base_model.input, outputs=predictions)
 else:
   model = load_model(weights)

@@ -18,12 +18,10 @@ with open('conf.json') as f:
 
 # config variables
 test_path     = config["test_path"]
-model_path    = config["model_path"]
-model_name    = "save_model_stage1.h5"
+weights    = config["weights"]
 
 print ("Loading model...")
-filename = model_path + "/" + model_name
-model = load_model(filename)
+model = load_model(weights)
 
 print ("Testing images...")
 folders = [name for name in os.listdir(test_path) if os.path.isdir(os.path.join(test_path, name))]
