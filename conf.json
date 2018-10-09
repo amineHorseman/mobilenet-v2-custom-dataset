@@ -8,8 +8,11 @@
 
     "classes"         : 10,
     "validation_split": 0.15,
-    "batch_size"      : 64, 
+    "batch_size"      : 64,
     "epochs"          : 50,
     "epochs_after_unfreeze" : 5,
-    "data_augmentation" : false
+    "data_augmentation" : false,
+
+    "checkpoint_period" : 10,
+    "checkpoint_period_after_unfreeze": 1
   }

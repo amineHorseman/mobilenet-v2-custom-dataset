@@ -37,6 +37,9 @@ augmented_data     = config["augmented_data"]
 validation_split   = config["validation_split"]
 data_augmentation  = config["data_augmentation"]
 epochs_after_unfreeze = config["epochs_after_unfreeze"]
+checkpoint_period = config["checkpoint_period"]
+checkpoint_period_after_unfreeze = config["checkpoint_period_after_unfreeze"]
+
 create_folders(model_path, augmented_data)
 
 # create model
@@ -61,7 +64,7 @@ else:
 print ("[INFO] successfully loaded base model and model...")
 
 # create callbacks
-checkpoint = ModelCheckpoint("logs/weights.h5", monitor='loss', save_best_only=True, period=5)
+checkpoint = ModelCheckpoint("logs/weights.h5", monitor='loss', save_best_only=True, period=checkpoint_period)
 
 # start time
 start = time.time()
@@ -98,7 +101,7 @@ if epochs_after_unfreeze > 0:
   model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossentropy')
 
   print ("Start training - phase 2...")
-  checkpoint = ModelCheckpoint("logs/weights.h5", monitor='loss', save_best_only=True, period=1)
+  checkpoint = ModelCheckpoint("logs/weights.h5", monitor='loss', save_best_only=True, period=checkpoint_period_after_unfreeze)
   if data_augmentation:
     model.fit_generator(
           generate_batches_with_augmentation(train_path, batch_size, validation_split, augmented_data), 
